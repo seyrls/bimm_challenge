@@ -24,14 +24,6 @@ RUN npm ci --only=production
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/src/graphql ./src/graphql
 
-# Set environment variables
-# ENV NODE_ENV=production
-# ENV DB_HOST=postgres
-# ENV DB_PORT=5432
-# ENV DB_USERNAME=postgres
-# ENV DB_PASSWORD=postgres
-# ENV DB_DATABASE=vehicle_data
-
 # Expose the application port
 EXPOSE 3000
 
