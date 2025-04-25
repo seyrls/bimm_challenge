@@ -45,6 +45,9 @@ I was able to implement the following requirements
 8. Teh database is Postgres
 
 # How to run
+There's a `.env` file named as `.env-change`. You may need to rename it to `.env` where database configuration is placed.
+Whiout this change, the application may not work as expected.
+
 ## Docker
 To build the images and compile the typescript classes, the following command is required
 1. `docker compose up --build`
