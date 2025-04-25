@@ -1,14 +1,8 @@
-// /Users/seyrlemos/develop/bimm_challenge/challenge/src/xml-parser/services/xml-parser.service.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { Logger } from '@nestjs/common';
 import axios from 'axios';
-// import { Parser } from 'xml2js'; // Import Parser for potential prototype mocking if needed
 import { XmlParserService } from './xml-parser.service';
-import {
-  AllVehicleMakes,
-  VehicleType,
-  //  VehicleMakeType,
-} from '../interfaces/vehicle.interface';
+import { AllVehicleMakes, VehicleType } from '../interfaces/vehicle.interface';
 
 // Mock axios
 jest.mock('axios');
@@ -44,9 +38,6 @@ describe('XmlParserService', () => {
     }).compile();
 
     service = module.get<XmlParserService>(XmlParserService);
-
-    // Spy on the parser instance used within the service if needed for specific tests
-    // parserSpy = jest.spyOn(service['parser'], 'parseStringPromise'); // Accessing private member for spying
   });
 
   it('should be defined and log initialization', () => {
@@ -56,7 +47,6 @@ describe('XmlParserService', () => {
     );
   });
 
-  // --- Tests for getAllMakes ---
   describe('getAllMakes', () => {
     const makesUrl =
       'https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?format=xml';
@@ -96,11 +86,10 @@ describe('XmlParserService', () => {
     });
 
     it('should fetch and parse a single make correctly (handling non-array from parser)', async () => {
-      // Simulate parser returning a single object when only one item exists
       const mockParsedSingle = {
         Results: { AllVehicleMakes: expectedMakes[0] },
       };
-      const originalParser = service['parser'].parseStringPromise; // Access private member
+      const originalParser = service['parser'].parseStringPromise;
       service['parser'].parseStringPromise = jest
         .fn()
         .mockResolvedValue(mockParsedSingle);
@@ -113,10 +102,9 @@ describe('XmlParserService', () => {
       expect(service['parser'].parseStringPromise).toHaveBeenCalledWith(
         mockXmlResponseSingle,
       );
-      expect(result).toEqual([expectedMakes[0]]); // Ensure it's wrapped in an array
+      expect(result).toEqual([expectedMakes[0]]);
       expect(mockLogger.error).not.toHaveBeenCalled();
 
-      // Restore original parser method
       service['parser'].parseStringPromise = originalParser;
     });
 
